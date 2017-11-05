@@ -14,7 +14,7 @@ export class TodoNewComponent implements OnInit {
   ngOnInit() {}
 
   AddNewTodoByEnter(event: any) {
-    
+     
     if(event.keyCode == 13) {
       if(event.target.value=="")
         return false;

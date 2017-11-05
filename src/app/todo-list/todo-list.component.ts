@@ -13,22 +13,23 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit() {}
 
-  checkKeys(event: any) {
-    console.log(event)
-    let todoId : number = parseInt( event.target.getAttribute("data-id") ); 
-
-    if(event.keyCode == 27) {
+  submitEditingTodo(event: any) {
+    
+    let todoId : number = parseInt( event.target.getElementsByTagName("input")[0].getAttribute("data-id") ); 
+    
+    if( this.todosService.isEditingTodo(todoId) )
+      this.todosService.editingTodo( todoId ,true );
+    else
       this.todosService.editingTodo( todoId , false  );
-    }
 
-    if(event.keyCode == 13) {
+    if(event.target.getElementsByTagName("input")[0].value=="") {
+      this.todosService.deleteTodo( todoId );
+      return true;
+    }   
+    
+    this.todosService.changeNameTodo( todoId , event.target.getElementsByTagName("input")[0].value );
 
-      if(event.target.value=="") { 
-        this.todosService.deleteTodo( todoId );
-      } 
-    } 
-     
-  }
+  } 
 
   blurTodo(event: any) {
     
@@ -44,9 +45,7 @@ export class TodoListComponent implements OnInit {
             if(event.target.value=="") {
               return true;
             }   
-
             this.todosService.changeNameTodo( todoId , event.target.value );
-            
       } 
 
   }
@@ -65,7 +64,8 @@ export class TodoListComponent implements OnInit {
   }
 
   completeTodo(event: any) {
-    
+
+    document.getElementById("toggle-all")["checked"] = false; 
     if( event.target.hasAttribute("data-id") ) {
       let todoId : number = parseInt( event.target.getAttribute("data-id") ); 
       if(event.target.checked )
@@ -73,6 +73,25 @@ export class TodoListComponent implements OnInit {
       else
         this.todosService.changeCompleteTodo( todoId , false );
     }
+  }
+
+
+  selectAllTodo(event: any) {
+    
+        if(event.target.checked) {
+          this.todosService.changeCompleteStatusAllTodo(true);
+        } else {
+          this.todosService.changeCompleteStatusAllTodo(false);
+        }
+    
+    
+  }
+  
+  destroyTodo(event: any) {
+    console.log(event);
+    let todoId : number = parseInt( event.target.getAttribute("data-id") );
+    this.todosService.deleteTodo( todoId );
+
   }
 
 }

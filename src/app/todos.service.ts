@@ -5,7 +5,27 @@ export class TodosService {
 
 
     private todos: Array<Object>;
+
+
+    getAllcompleted():number {
+
+        let i: number = 0;
+        this.getTodos().forEach(td => {
+            if(td["completed"]) {
+                i++;
+            }
+        });
+        return i;
+    }
     
+    changeCompleteStatusAllTodo( completed:boolean ): void {
+
+        this.todos.forEach(td => {
+                td["completed"] = completed;
+        });
+        localStorage.setItem("todos", JSON.stringify(this.todos) );
+
+    }
 
     changeNameTodo(todoId: number,nameTodo:string ):void {
 
@@ -40,15 +60,28 @@ export class TodosService {
 
     }
 
-    deleteTodo(todoId: number) {
+    deleteAllCompleted() {
+        for (var key in this.todos) {
+            
+            if( this.todos[key]["completed"] ) {
+                this.todos.splice( Number(key), 1 ); 
+                this.deleteAllCompleted();
+            }
+            
+        }
+        localStorage.setItem("todos", JSON.stringify(this.todos) );
+        return true;
+    }
 
+    deleteTodo(todoId: number) {
+        
         for (var key in this.todos) {
 
-            if( this.todos[key] ==todoId ) {
-                delete this.todos[key]; 
-            } 
-        }
+            if( this.todos[key]["id"] == todoId ) {
+                  this.todos.splice( Number(key), 1 ); 
+            }
 
+        }
         localStorage.setItem("todos", JSON.stringify(this.todos) );
         return true;
                 
