@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from '../todos.service';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-todo-filter',
@@ -8,17 +10,41 @@ import { TodosService } from '../todos.service';
 })
 export class TodoFilterComponent implements OnInit {
 
-  constructor(private todosService: TodosService ) {
+  private rootSelected: boolean = false;
+  private activSelected: boolean = false;
+  private complSelected: boolean = false;
+
+  constructor( 
+    private location: Location , 
+    private todosService: TodosService ) {
 
   }
   
-  ngOnInit() {
+  ngOnInit() { 
+
+    console.log( location.pathname);
+
+    if( location.pathname=="/") {
+      this.rootSelected = true;
+      this.countCompleted = this.todosService.getAllCount();
+    }
+
+    if( location.pathname=="/active") {
+      this.activSelected = true;
+      this.countCompleted = this.todosService.getAllActiveCount();
+    }
+
+    if( location.pathname=="/completed") {
+      this.complSelected = true;
+      this.countCompleted = this.todosService.getAllCompletedCount();
+    }
 
   }
   
-  countCompleted:number = this.todosService.getAllcompleted();
+  countCompleted:number = 0;
 
   deleteCompleted(event: any) {
+    this.countCompleted = 0;
     this.todosService.deleteAllCompleted();
   }
 

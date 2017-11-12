@@ -1,0 +1,16 @@
+<section id="main" >
+  <input (click)="selectAllTodo($event)" id="toggle-all" type="checkbox"  >
+  <label for="toggle-all">Mark all as complete</label>
+  <ul id="todo-list">
+    <li *ngFor="let todo of this.todosService.getTodos() | filtercompl "  [ngClass]="{ 'editing': todo.editing }" >
+      <div class="view">
+        <input [checked]="todo.completed" class="toggle" type="checkbox" (click)="completeTodo($event)"  [attr.data-id]="todo.id">
+        <label (dblclick)="editingTodo($event)" [attr.data-id]="todo.id" >{{todo.name}}</label>
+        <button class="destroy" (click)="destroyTodo($event)"  [attr.data-id]="todo.id" ></button>
+      </div>
+      <form (submit)="submitEditingTodo($event)" >
+        <input [attr.data-id]="todo.id" (blur)="blurTodo($event)" class="edit" value="{{todo.name}}">
+      </form>
+    </li>
+  </ul>
+</section>

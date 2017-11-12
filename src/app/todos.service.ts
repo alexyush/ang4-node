@@ -4,11 +4,20 @@ import { Injectable } from '@angular/core';
 export class TodosService {
 
 
-    private todos: Array<Object>;
+    private todos: Array<Object>; 
 
-
-    getAllcompleted():number {
-
+    getAllActiveCount():number {
+        
+                let i: number = 0;
+                this.getTodos().forEach(td => {
+                    if(!td["completed"]) {
+                        i++;
+                    }
+                });
+                return i;
+            }
+    getAllCompletedCount():number {
+            
         let i: number = 0;
         this.getTodos().forEach(td => {
             if(td["completed"]) {
@@ -16,6 +25,10 @@ export class TodosService {
             }
         });
         return i;
+    }
+
+    getAllCount():number {    
+        return this.getTodos().length;
     }
     
     changeCompleteStatusAllTodo( completed:boolean ): void {
