@@ -9,7 +9,7 @@ import { TodosService } from '../todos.service';
 
 export class TodoListComponent implements OnInit {
 
-  constructor(private todosService: TodosService) {}
+  constructor(public todosService: TodosService) {}
 
   ngOnInit() {}
 

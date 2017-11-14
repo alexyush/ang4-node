@@ -10,13 +10,13 @@ import { Location } from '@angular/common';
 })
 export class TodoFilterComponent implements OnInit {
 
-  private rootSelected: boolean = false;
-  private activSelected: boolean = false;
-  private complSelected: boolean = false;
+  public rootSelected: boolean = false;
+  public activSelected: boolean = false;
+  public complSelected: boolean = false;
 
   constructor( 
-    private location: Location , 
-    private todosService: TodosService ) {
+    public location: Location , 
+    public todosService: TodosService ) {
 
   }
   
